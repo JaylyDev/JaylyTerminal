@@ -24,7 +24,7 @@ megabyte = 1000000
 kilobyte = 1000
 
 #Porgram start running
-print("""JaylyDirectory [Version 1.0.48]
+print("""JaylyTerminal [Version 1.0.1]
 (c) JaylyDev. All rights reserved.
 """)
 success = False
