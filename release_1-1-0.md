@@ -1,5 +1,4 @@
-# Release 1.1.0
-Download Here - [Download]
+# Release 1.0.2
 ## Changelogs
 - Reformatted the source code
 - Added "dirdelete" command
