@@ -12,10 +12,18 @@ JaylyTerminal is a copy of Command Prompt from Windows 10
 - You cannot use this program in your phones and consoles
 
 **This terminal features**
-- Directory modules
+- Directory handling
+- File handling
+- A stopwatch
 
 ## Changelog
 Version | Release Date | Changelog
 --- | --- | ---
-1.0.0 | April, 2021 | Added 1 command for listing directory
+1.0.4.1 | May 22, 2021 | Bug fixes
+1.0.4 | May 18, 2021 | [Changelog](https://github.com/JaylyDev/JaylyTerminal/blob/changelogs/release%201.0.4.md)
+1.0.3 | May 13, 2021 | [Changelog](https://github.com/JaylyDev/JaylyTerminal/blob/changelogs/release%201.0.3.md)
+1.0.2.2 | May 10, 2021 | Changed version definitions in command "help /version"
+1.0.2.1 | May 10, 2021 | Changed license URL in source code
+1.0.2| May 10, 2021 | [Changelog](https://github.com/JaylyDev/JaylyTerminal/blob/changelogs/release%201.0.2.md)
 1.0.1 | April 30, 2021 | Added more commands
+1.0.0 | April, 2021 | Added 1 command for listing directory
