@@ -1,5 +1,6 @@
 # JaylyTerminal
 JaylyTerminal is a copy of Command Prompt or PowerShell from Windows 10
+![image](https://user-images.githubusercontent.com/65847850/120097070-76bdcb80-c126-11eb-9596-9e23993d4302.png)
 
 **Advantages**
 - This terminal can be used when your command prompt is disabled by your adminstrator.
@@ -14,6 +15,7 @@ JaylyTerminal is a copy of Command Prompt or PowerShell from Windows 10
 **This terminal features**
 - Directory handling
 - File handling
+- Data Compression
 - A stopwatch
 
 ## Changelog
