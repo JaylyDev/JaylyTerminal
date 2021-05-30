@@ -19,6 +19,9 @@ JaylyTerminal is a copy of Command Prompt or PowerShell from Windows 10
 ## Changelog
 Version | Release Date | Changelog
 --- | --- | ---
+1.0.4.2 | Pending | [Changelog](https://github.com/JaylyDev/JaylyTerminal/blob/changelogs/release%201.0.4.2.md)
+1.0.3.2 | May 30, 2021 | Bug fixes
+1.0.2.4 | May 30, 2021 | Bug fixes
 1.0.4.1 | May 22, 2021 | Bug fixes & Changed version
 1.0.3.1 | May 22, 2021 | Changed version
 1.0.2.3 | May 22, 2021 | Changed version
