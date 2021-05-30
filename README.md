@@ -1,5 +1,7 @@
 # JaylyTerminal
 JaylyTerminal is a copy of Command Prompt or PowerShell from Windows 10
+
+### **[Download Here](https://github.com/JaylyDev/JaylyTerminal/blob/master/Terminal.zip?raw=true)**
 ![image](https://user-images.githubusercontent.com/65847850/120097070-76bdcb80-c126-11eb-9596-9e23993d4302.png)
 
 **Advantages**
