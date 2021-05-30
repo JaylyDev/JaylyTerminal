@@ -2,5 +2,6 @@
 All changelogs documents from JaylyTerminal
 
 ## Latest Version
-**1.1.2** [[Download](https://github.com/jaylydev/jaylyterminal)]
-> Update Release at May 18, 2021
+Latest version is
+**1.0.4.2** [Download](https://github.com/jaylydev/jaylyterminal)]
+> Updated README.md at May 30, 2021
