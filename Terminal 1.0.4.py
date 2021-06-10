@@ -14,13 +14,15 @@ import codecs
 from distutils.dir_util import copy_tree
 from distutils.dir_util import remove_tree
 from distutils import log
+from timeit import default_timer
+from datetime import datetime
 
 #program setup
 locale.setlocale(locale.LC_ALL, 'en_US') #Decimals on numbers
 current_path = inspect.getfile(inspect.currentframe()) #Current directory
 current_filename = os.path.basename(__file__)
 current_path = str(current_path).replace("\\" + str(current_filename), "")
-version = [1, 0, 4, 2] #Program version
+version = [1, 0, 4, 3] #Program version
 version_code = version
 version = str(version).replace(",", ".")
 version = str(version).replace(" ", "")
@@ -28,6 +30,7 @@ version = str(version).replace("]", "")
 version = str(version).replace("[", "")
 code = "4e41" #NA
 cmd = ""
+jt_request_exit = False
 
 #define commands
 def jt_code():
@@ -76,11 +79,6 @@ def jt_help():
     except:
         jt_help_text()
 
-def jt_program_changelog(version_cl):
-    #code here soon kbye
-    if version_cl == [1, 0, 0]:
-        print(version_cl)
-
 def jt_help_text():
     print("""
 TOPIC
@@ -115,14 +113,15 @@ def jt_program_version():
     jt_revision_ver = version_code[1]
     jt_maintenance_ver = version_code[2]
     jt_commit_ver = version_code[3]
-    print("Terminal Version: " + str(jt_ver))
-    print("Revision Version: " + str(jt_revision_ver))
-    print("Maintenance Version: " + str(jt_maintenance_ver))
-    print("Code version: " + str(jt_commit_ver))
+    print("Major Version: " + str(jt_ver))
+    print("Minor Version: " + str(jt_revision_ver))
+    print("Patch: " + str(jt_maintenance_ver))
+    print("Revision: " + str(jt_commit_ver))
 
 def jt_exit():
+    global jt_request_exit
     print("Closing program.")
-    sys.exit()
+    jt_request_exit = True
 
 def jt_dirlist():
     listdir_path = str(current_path)
@@ -146,9 +145,9 @@ def jt_dirmove():
             current_path = str(request_path)
         else:
             print("Error: Directory \"" + str(request_path) + "\" not found.")
-            current_path = inspect.getfile(inspect.currentframe()) #Current directory
-            current_filename = os.path.basename(__file__)
-            current_path = str(current_path).replace("\\" + str(current_filename), "")
+#           current_path = inspect.getfile(inspect.currentframe()) #Current directory
+#           current_filename = os.path.basename(__file__)
+#           current_path = str(current_path).replace("\\" + str(current_filename), "")
     except Exception as Error:
         print("Error: " + str(Error))
         print("Usage: move [Directory]") 
@@ -156,49 +155,139 @@ def jt_dirmove():
 def jt_dirmove_help():
     print("Usage: \"dirmove\" + directory target")
 
-def jt_dirsize_ext(current_path):
+def jt_dirsize_ext(current_path, loop, time):
     #Units
     petabyte = 1000000000000000
     terabyte = 1000000000000
     gigabyte = 1000000000
     megabyte = 1000000
     kilobyte = 1000
-    #program 
-    total_size = 0
-    bytes_size = 0
-    try:
-        for path, dirs, files in os.walk(str(current_path)):
-            for f in files:
-                    fp = os.path.join(path, f)
-                    total_size += os.path.getsize(fp)
-                    bytes_size = "{:,}".format(total_size)
-    except Exception as Error:
-        print("Error: " + str(Error))
-    #Converts bytes to suitible values
-    if total_size >= petabyte:
-        total_size = total_size / petabyte #Get PB value
-        total_size = round(total_size, 2) #Round to 2 d.p
-        total_size = str(total_size) + " petabytes"
-    elif total_size >= terabyte: 
-        total_size = total_size / terabyte #Get TB value
-        total_size = round(total_size, 2) #Round to 2 d.p.
-        total_size = str(total_size) + " terabytes"
-    elif total_size >= gigabyte:
-        total_size = total_size / gigabyte #Get GB value
-        total_size = round(total_size, 2) #Round to 2 d.p.
-        total_size = str(total_size) + " gigabytes"
-    elif total_size >= megabyte: 
-        total_size = total_size / megabyte #Get MB value
-        total_size = round(total_size, 2) #Round to 2 d.p.                        
-        total_size = str(total_size) + " megabytes"
-    elif total_size >= kilobyte: 
-        total_size = total_size / kilobyte #Get KB value
-        total_size = round(total_size, 2) #Round to 2 d.p.             
-        total_size = str(total_size) + " kilobytes"
-    else:                       
-        total_size = str(total_size) + " bytes"
-        
-    print("Directory size: " + str(total_size) + " (" + str(bytes_size) + " bytes)")
+    #program
+    if loop == True:
+        program_start_time = default_timer()
+        start = default_timer()
+        if time >= 1:
+            while True:
+                duration = default_timer() - start
+                if duration >= 1:
+                    start = default_timer()
+                    total_size = 0
+                    bytes_size = 0
+                    try:
+                        for path, dirs, files in os.walk(str(current_path)):
+                            for f in files:
+                                    fp = os.path.join(path, f)
+                                    total_size += os.path.getsize(fp)
+                                    bytes_size = "{:,}".format(total_size)
+                    except Exception as Error:
+                        print("Error: " + str(Error))
+                    #Converts bytes to suitible values
+                    if total_size >= petabyte:
+                        total_size = total_size / petabyte #Get PB value
+                        total_size = round(total_size, 2) #Round to 2 d.p
+                        total_size = str(total_size) + " petabytes"
+                    elif total_size >= terabyte: 
+                        total_size = total_size / terabyte #Get TB value
+                        total_size = round(total_size, 2) #Round to 2 d.p.
+                        total_size = str(total_size) + " terabytes"
+                    elif total_size >= gigabyte:
+                        total_size = total_size / gigabyte #Get GB value
+                        total_size = round(total_size, 2) #Round to 2 d.p.
+                        total_size = str(total_size) + " gigabytes"
+                    elif total_size >= megabyte: 
+                        total_size = total_size / megabyte #Get MB value
+                        total_size = round(total_size, 2) #Round to 2 d.p.                        
+                        total_size = str(total_size) + " megabytes"
+                    elif total_size >= kilobyte: 
+                        total_size = total_size / kilobyte #Get KB value
+                        total_size = round(total_size, 2) #Round to 2 d.p.             
+                        total_size = str(total_size) + " kilobytes"
+                    else:                       
+                        total_size = str(total_size) + " bytes"
+                        
+                    print("Directory size: " + str(total_size) + " (" + str(bytes_size) + " bytes) | " + str(datetime.now().strftime("%Y-%m-%d %H:%M:%S")))
+                else:
+                    continue
+                cmd_time_duration = default_timer() - program_start_time
+                if cmd_time_duration >= time: break
+        else:
+            while True:
+                duration = default_timer() - start
+                if duration >= 1:
+                    start = default_timer()
+                    total_size = 0
+                    bytes_size = 0
+                    try:
+                        for path, dirs, files in os.walk(str(current_path)):
+                            for f in files:
+                                    fp = os.path.join(path, f)
+                                    total_size += os.path.getsize(fp)
+                                    bytes_size = "{:,}".format(total_size)
+                    except Exception as Error:
+                        print("Error: " + str(Error))
+                    #Converts bytes to suitible values
+                    if total_size >= petabyte:
+                        total_size = total_size / petabyte #Get PB value
+                        total_size = round(total_size, 2) #Round to 2 d.p
+                        total_size = str(total_size) + " petabytes"
+                    elif total_size >= terabyte: 
+                        total_size = total_size / terabyte #Get TB value
+                        total_size = round(total_size, 2) #Round to 2 d.p.
+                        total_size = str(total_size) + " terabytes"
+                    elif total_size >= gigabyte:
+                        total_size = total_size / gigabyte #Get GB value
+                        total_size = round(total_size, 2) #Round to 2 d.p.
+                        total_size = str(total_size) + " gigabytes"
+                    elif total_size >= megabyte: 
+                        total_size = total_size / megabyte #Get MB value
+                        total_size = round(total_size, 2) #Round to 2 d.p.                        
+                        total_size = str(total_size) + " megabytes"
+                    elif total_size >= kilobyte: 
+                        total_size = total_size / kilobyte #Get KB value
+                        total_size = round(total_size, 2) #Round to 2 d.p.             
+                        total_size = str(total_size) + " kilobytes"
+                    else:                       
+                        total_size = str(total_size) + " bytes"
+                        
+                    print("Directory size: " + str(total_size) + " (" + str(bytes_size) + " bytes) | " + str(datetime.now().strftime("%Y-%m-%d %H:%M:%S")))
+                else:
+                    continue
+    else:
+        total_size = 0
+        bytes_size = 0
+        try:
+            for path, dirs, files in os.walk(str(current_path)):
+                for f in files:
+                        fp = os.path.join(path, f)
+                        total_size += os.path.getsize(fp)
+                        bytes_size = "{:,}".format(total_size)
+        except Exception as Error:
+            print("Error: " + str(Error))
+        #Converts bytes to suitible values
+        if total_size >= petabyte:
+            total_size = total_size / petabyte #Get PB value
+            total_size = round(total_size, 2) #Round to 2 d.p
+            total_size = str(total_size) + " petabytes"
+        elif total_size >= terabyte: 
+            total_size = total_size / terabyte #Get TB value
+            total_size = round(total_size, 2) #Round to 2 d.p.
+            total_size = str(total_size) + " terabytes"
+        elif total_size >= gigabyte:
+            total_size = total_size / gigabyte #Get GB value
+            total_size = round(total_size, 2) #Round to 2 d.p.
+            total_size = str(total_size) + " gigabytes"
+        elif total_size >= megabyte: 
+            total_size = total_size / megabyte #Get MB value
+            total_size = round(total_size, 2) #Round to 2 d.p.                        
+            total_size = str(total_size) + " megabytes"
+        elif total_size >= kilobyte: 
+            total_size = total_size / kilobyte #Get KB value
+            total_size = round(total_size, 2) #Round to 2 d.p.             
+            total_size = str(total_size) + " kilobytes"
+        else:                       
+            total_size = str(total_size) + " bytes"
+            
+        print("Directory size: " + str(total_size) + " (" + str(bytes_size) + " bytes) | " + str(datetime.now().strftime("%Y-%m-%d %H:%M:%S")))
 
 def jt_dirsize():
     global current_path
@@ -206,20 +295,18 @@ def jt_dirsize():
     try:
         if cmd_input[1] == "/loop":
             loop = True
-            if cmd_input[2] == "/time":
-                print(cmd_input[3])
-            else:
-                pass
+            try:
+                if cmd_input[2] == "/time":
+                    time = int(cmd_input[3])
+            except:
+                time = 0
         else:
             loop = False
     except:
         loop = False
+        time = 0
     try:
-        if loop == True:
-            while True: #Calculate directory size
-                jt_dirsize_ext(current_path)
-        elif loop == False:
-            jt_dirsize_ext(current_path)
+        jt_dirsize_ext(current_path, loop, time)
     except Exception as Error:
         print("Error: " + str(Error))
 
@@ -247,7 +334,7 @@ def jt_dirdelete():
     global current_path
     print("You have requested to delete directory \"" + str(current_path) + "\"")
     dirdelete_alert = input("Are you sure? (yes/no): ").lower()
-    if dirdelete_alert == "yes" or dirdelete_alert == "y":
+    if dirdelete_alert == "yes":
         try:
             print(log.set_verbosity(log.INFO))
             print(log.set_threshold(log.INFO))
@@ -258,7 +345,7 @@ def jt_dirdelete():
             current_path = str(current_path).replace("\\" + str(current_filename), "")
         except Exception as Error:
             print("Error: " + str(Error))
-    elif dirdelete_alert == "no" or dirdelete_alert == "n":
+    elif dirdelete_alert == "no":
         print("Decline request.")
     else:
         print("Invalid input, decline request.")
@@ -290,6 +377,9 @@ def jt_zipdir():
         command = cmd[0]
         source_dir = current_path
         output_filename = cmd[1:]
+        jt_list_symbols_remove(output_filename)
+        global var_output
+        output_filename = var_output
         try:
             #if os.path.exists(source_dir) and (os.path.isfile(output_filename) or os.path.exists(output_filename)):
             jt_zipdir_execution(output_filename, source_dir)
@@ -334,8 +424,15 @@ def jt_create_file():
 
 def jt_readfile():
     global cmd_input
+    global current_path
     try:
         filepath = cmd_input[1]
+        list_filepath = list(filepath)
+        if list_filepath[:3] == [".", ".", "\\"]:
+            filepath = current_path + "\\" + filepath
+            filepath = filepath.replace("..\\", "\\")
+        else:
+            pass
         encode = cmd_input[2]
         jt_readfile_exe(filepath, encode)
     except Exception as Error:
@@ -364,13 +461,24 @@ def jt_readfile_exe(file, encode):
 def jt_dirsearch():
     global cmd_input
     global current_path
+    global var_output
     try:
         keyword = cmd_input[1]
+        jt_list_symbols_remove(keyword)
+        keyword = var_output
+        print(keyword)
         try:
-            start_dir = cmd_input[2]
+            start_dir = cmd_input[2:]
+            jt_list_symbols_remove(start_dir)
+            start_dir = var_output
         except:
             start_dir = current_path
-        jt_dirsearch_exe(keyword, start_dir)
+        try:
+            print(keyword)
+            print(start_dir)
+            jt_dirsearch_exe(keyword, start_dir)
+        except Exception as Error:
+            print("Error: " + str(Error))
     except Exception as Error:
         print("Error: " + str(Error))
         print("Usage: dirsearch [Directory name] [Start directory (Default: Current path)]")
@@ -378,14 +486,14 @@ def jt_dirsearch():
 def jt_dirsearch_exe(keyword, start_dir):
     for dirpath, dirnames, filenames in os.walk(start_dir):
         for pathname in dirnames:
-            if pathname == keyword:
-                pathname = os.path.join(pathname)
-                print("Found folder \"" + pathname + "\". Location: " + dirpath + "\\" + pathname)
-#                f.write("Found folder \"" + pathname + "\". Location: " + dirpath + "\\" + pathname + "\n")
-#                f.close()
-#                f = open("demofile2.txt", "a")
-            else:
-                continue
+                if keyword in pathname:
+                    pathname = os.path.join(pathname)
+                    print("Found folder \"" + pathname + "\". Location: " + dirpath + "\\" + pathname)
+    #                f.write("Found folder \"" + pathname + "\". Location: " + dirpath + "\\" + pathname + "\n")
+    #                f.close()
+    #                f = open("demofile2.txt", "a")
+                else:
+                    continue
 
 # jt_filesearch() and jt_filesearch_exe() are not available before version 1.1.2.0
 def jt_filesearch():
@@ -422,7 +530,7 @@ def jt_list_symbols_remove(variable):
     var_output = variable
 
 #Program start running
-print("JaylyDirectory [Version " + str(version) + "]")
+print("JaylyTerminal [Version " + str(version) + "]")
 print("""(c) JaylyDev. All rights reserved.
 """)
 while True:
@@ -467,3 +575,4 @@ while True:
             print("Error: " + str(Error))
     except:
         pass
+    if jt_request_exit == True: break
